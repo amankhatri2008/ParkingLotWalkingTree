@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "2a2eae3d-8147-4df3-b1fe-0a5cb41f782e",
+		"name": "Parking Lot API",
+		"description": "API requests for the Parking Lot Management System, including user and admin endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47912601",
+		"_collection_link": "https://aman-khatri-s-team.postman.co/workspace/Team-Workspace~b234d892-4373-4593-834c-6830e6afedde/collection/47912601-2a2eae3d-8147-4df3-b1fe-0a5cb41f782e?action=share&source=collection_link&creator=47912601"
+	},
+	"item": [
+		{
+			"name": "AdminController",
+			"item": [
+				{
+					"name": "Add New Parking Slot",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"slotType\": \"CAR\",\n  \"floor\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/admin/slots",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"admin",
+								"slots"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Parking Slot",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/admin/slots/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"admin",
+								"slots",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add/Update Pricing Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"vehicleType\": \"BIKE\",\n  \"basePrice\": 5,\n  \"hourlyRate\": 2.5\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/admin/pricing-rules",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"admin",
+								"pricing-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Parking Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/admin/status",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"admin",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserController",
+			"item": [
+				{
+					"name": "Park Vehicle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plateNo\": \"XYZ-789\",\n  \"vehicleType\": \"CAR\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/user/park",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user",
+								"park"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exit Vehicle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ticketId\": 101\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/user/exit",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user",
+								"exit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
