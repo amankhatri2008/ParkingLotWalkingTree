@@ -79,7 +79,7 @@ Add them to your application.yml or as environment variables.
 
 **Navigate to the project root directory (where pom.xml is located)**
 
-./mvnw spring-boot:run
+mvn spring-boot:run
 
 The backend will start on http://localhost:8080.
 
