@@ -1,0 +1,122 @@
+/* src/index.css */
+
+/* --- Global Styles & Variables --- */
+:root {
+  --primary-color: #1a73e8; /* A professional, deep blue */
+  --primary-hover-color: #0d47a1;
+  --secondary-text-color: #555; /* A clean gray for labels */
+  --body-bg-color: #f0f2f5; /* A very light gray background */
+  --card-bg-color: #ffffff; /* White for cards */
+  --border-color: #e0e0e0; /* Light gray for subtle borders */
+  --success-color: #28a745; /* Green for success elements */
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--body-bg-color);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* --- Card Styles --- */
+.card {
+  background-color: var(--card-bg-color);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.card h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+/* --- Form Styles --- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--secondary-text-color);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+/* --- Button Styles --- */
+.button-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.button-primary:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.admin-button {
+  background-color: #5a6268;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  margin-bottom: 24px;
+}
+
+.admin-button:hover {
+  background-color: #444b50;
+}
+
+/* --- Receipt Styles --- */
+.receipt-card {
+  border-left: 5px solid var(--success-color);
+}
+
+.receipt-card h3 {
+  color: var(--success-color);
+}
