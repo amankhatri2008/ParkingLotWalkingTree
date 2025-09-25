@@ -22,20 +22,20 @@ public interface ParkingSlotRepository extends JpaRepository<ParkingSlot, Long> 
     long countByStatus(SlotStatus status);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT s FROM ParkingSlot s WHERE s.status = :status AND s.slotType >= :vehicleType ORDER BY s.id ASC LIMIT 1")
+    @Query("SELECT s FROM ParkingSlot s WHERE s.status = :status AND s.slotType IN :compatibleSlotTypes ORDER BY s.id ASC LIMIT 1")
     Optional<ParkingSlot> findFirstAvailableSlot(
             @Param("status") SlotStatus status,
-            @Param("vehicleType") VehicleType vehicleType);
+            @Param("compatibleSlotTypes") List<String> compatibleSlotTypes);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT s FROM ParkingSlot s WHERE s.status = :status AND s.slotType >= :vehicleType ORDER BY s.floor ASC, s.id ASC")
+    @Query("SELECT s FROM ParkingSlot s WHERE s.status = :status AND s.slotType IN :compatibleSlotTypes ORDER BY s.floor ASC, s.id ASC")
     List<ParkingSlot> findAllAvailableSlotsLevelWise(
             @Param("status") SlotStatus status,
-            @Param("vehicleType") VehicleType vehicleType);
+            @Param("compatibleSlotTypes") List<String> compatibleSlotTypes);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT s FROM ParkingSlot s WHERE s.status = :status AND s.slotType >= :vehicleType ORDER BY s.id ASC")
+    @Query("SELECT s FROM ParkingSlot s WHERE s.status = :status AND s.slotType IN :compatibleSlotTypes ORDER BY s.id ASC")
     List<ParkingSlot> findAllAvailableSlotsWithLock(
             @Param("status") SlotStatus status,
-            @Param("vehicleType") VehicleType vehicleType);
+            @Param("compatibleSlotTypes") List<String> compatibleSlotTypes);
 }

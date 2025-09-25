@@ -5,10 +5,14 @@ import com.walkingtree.parkinglot.enums.VehicleType;
 import com.walkingtree.parkinglot.model.ParkingSlot;
 import com.walkingtree.parkinglot.repository.ParkingSlotRepository;
 import com.walkingtree.parkinglot.strategy.SlotAllocationStrategy;
+import com.walkingtree.parkinglot.vehicles.IVehicle;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+
+import static com.walkingtree.parkinglot.vehicles.IVehicle.getCompatibleSlotTypes;
 
 @Component("firstAvailableStrategy")
 public class FirstAvailableStrategy implements SlotAllocationStrategy {
@@ -21,11 +25,14 @@ public class FirstAvailableStrategy implements SlotAllocationStrategy {
 
     @Override
     @Transactional
-    public Optional<ParkingSlot> findSlot(VehicleType vehicleType) {
+    public Optional<ParkingSlot> findSlot(IVehicle  vehicle) {
+        String vehicleType = vehicle.getClass().getSimpleName().toUpperCase();
+
+        List<String> compatibleSlotTypes = getCompatibleSlotTypes(vehicleType);
 
         return parkingSlotRepository.findFirstAvailableSlot(
                 SlotStatus.AVAILABLE,
-                vehicleType
+                compatibleSlotTypes
         );
     }
 }

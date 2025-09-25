@@ -5,12 +5,15 @@ import com.walkingtree.parkinglot.enums.VehicleType;
 import com.walkingtree.parkinglot.model.ParkingSlot;
 import com.walkingtree.parkinglot.repository.ParkingSlotRepository;
 import com.walkingtree.parkinglot.strategy.SlotAllocationStrategy;
+import com.walkingtree.parkinglot.vehicles.IVehicle;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
+import static com.walkingtree.parkinglot.vehicles.IVehicle.getCompatibleSlotTypes;
 
 @Component("randomStrategy")
 public class RandomAvailableStrategy implements SlotAllocationStrategy {
@@ -24,10 +27,13 @@ public class RandomAvailableStrategy implements SlotAllocationStrategy {
 
     @Override
     @Transactional
-    public Optional<ParkingSlot> findSlot(VehicleType vehicleType) {
+    public Optional<ParkingSlot> findSlot(IVehicle vehicle) {
+        String vehicleType = vehicle.getClass().getSimpleName().toUpperCase();
+
+        List<String> compatibleSlotTypes = getCompatibleSlotTypes(vehicleType);
         List<ParkingSlot> availableSlots = parkingSlotRepository.findAllAvailableSlotsWithLock(
                 SlotStatus.AVAILABLE,
-                vehicleType
+                compatibleSlotTypes
         );
 
         if (availableSlots.isEmpty()) {

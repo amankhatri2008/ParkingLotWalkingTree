@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,38 +62,43 @@ class ParkingSlotRepositoryTest {
 
     @Test
     void findFirstAvailableSlot_shouldReturnFirstAvailableCarSlot() {
-        Optional<ParkingSlot> result = parkingSlotRepository.findFirstAvailableSlot(SlotStatus.AVAILABLE, VehicleType.CAR);
+        List<String> compatibleSlotTypes = Arrays.asList("CAR");
+
+        Optional<ParkingSlot> result = parkingSlotRepository.findFirstAvailableSlot(SlotStatus.AVAILABLE, compatibleSlotTypes);
         assertTrue(result.isPresent());
         assertEquals(2L, result.get().getId());
     }
 
     @Test
     void findFirstAvailableSlot_shouldReturnFirstAvailableTruckSlot() {
-        Optional<ParkingSlot> result = parkingSlotRepository.findFirstAvailableSlot(SlotStatus.AVAILABLE, VehicleType.TRUCK);
+        List<String> compatibleSlotTypes = Arrays.asList("TRUCK");
+        Optional<ParkingSlot> result = parkingSlotRepository.findFirstAvailableSlot(SlotStatus.AVAILABLE, compatibleSlotTypes);
         assertTrue(result.isPresent());
         assertEquals(3L, result.get().getId());
     }
 
     @Test
     void findFirstAvailableSlot_shouldRNotReturnEmpty_ifCompatibleSlotAvailable() {
-        Optional<ParkingSlot> result = parkingSlotRepository.findFirstAvailableSlot(SlotStatus.OCCUPIED, VehicleType.CAR);
+        List<String> compatibleSlotTypes = Arrays.asList("CAR");
+        Optional<ParkingSlot> result = parkingSlotRepository.findFirstAvailableSlot(SlotStatus.OCCUPIED, compatibleSlotTypes);
         assertTrue(result.isPresent());
     }
 
     @Test
-    void findAllAvailableSlotsLevelWise_shouldReturnSlotsOrderedByFloor() {
-        List<ParkingSlot> result = parkingSlotRepository.findAllAvailableSlotsLevelWise(SlotStatus.AVAILABLE, VehicleType.CAR);
+    void findAllAvailableSlotsLevelWise_shouldReturnSlotsOrderedByFloor() {// A car can only park in a 'CAR' slot based on your query
+        List<String> compatibleSlotTypes = Arrays.asList("CAR");
+        List<ParkingSlot> result = parkingSlotRepository.findAllAvailableSlotsLevelWise(SlotStatus.AVAILABLE, compatibleSlotTypes);
         assertFalse(result.isEmpty());
-        assertEquals(23, result.size());
-        assertEquals(6L, result.get(0).getId()); // Floor 1
-        assertEquals(7L, result.get(1).getId()); // Floor 2
-        assertEquals(8L, result.get(2).getId()); // Floor 3
+        assertEquals(17, result.size());
+        assertEquals(6L, result.get(0).getId());  // First CAR slot on Floor 1
+        assertEquals(21L, result.get(10).getId()); // First CAR slot on Floor 2
     }
 
     @Test
     void findAllAvailableSlotsWithLock_shouldReturnAllAvailableCompatibleSlots() {
-        List<ParkingSlot> result = parkingSlotRepository.findAllAvailableSlotsWithLock(SlotStatus.AVAILABLE, VehicleType.BIKE);
+        List<String> compatibleSlotTypes = Arrays.asList("BIKE");
+        List<ParkingSlot> result = parkingSlotRepository.findAllAvailableSlotsWithLock(SlotStatus.AVAILABLE, compatibleSlotTypes);
         assertFalse(result.isEmpty());
-        assertEquals(29, result.size());
+        assertEquals(6, result.size());
     }
 }

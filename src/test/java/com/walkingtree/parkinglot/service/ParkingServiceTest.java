@@ -7,6 +7,7 @@ import com.walkingtree.parkinglot.enums.VehicleType;
 import com.walkingtree.parkinglot.model.*;
 import com.walkingtree.parkinglot.repository.*;
 import com.walkingtree.parkinglot.strategy.SlotAllocationStrategy;
+import com.walkingtree.parkinglot.vehicles.IVehicle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,7 +73,7 @@ class ParkingServiceTest {
     void parkVehicle_shouldParkNewVehicleAndCreateTicket() {
 
         when(vehicleRepository.findByPlateNo(anyString())).thenReturn(Optional.empty());
-        when(slotAllocationStrategy.findSlot(any(VehicleType.class))).thenReturn(Optional.of(parkingSlot));
+        when(slotAllocationStrategy.findSlot(any(IVehicle.class))).thenReturn(Optional.of(parkingSlot));
         when(ticketRepository.save(any(Ticket.class))).thenReturn(activeTicket);
 
 
@@ -102,7 +103,7 @@ class ParkingServiceTest {
     void parkVehicle_shouldThrowException_ifNoAvailableSlots() {
 
         when(vehicleRepository.findByPlateNo(anyString())).thenReturn(Optional.empty());
-        when(slotAllocationStrategy.findSlot(any(VehicleType.class))).thenReturn(Optional.empty());
+        when(slotAllocationStrategy.findSlot(any(IVehicle.class))).thenReturn(Optional.empty());
 
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> parkingService.parkVehicle("XYZ-789", VehicleType.CAR));

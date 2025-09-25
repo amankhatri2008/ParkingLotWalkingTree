@@ -7,6 +7,7 @@ import com.walkingtree.parkinglot.enums.VehicleType;
 import com.walkingtree.parkinglot.model.*;
 import com.walkingtree.parkinglot.repository.*;
 import com.walkingtree.parkinglot.strategy.SlotAllocationStrategy;
+import com.walkingtree.parkinglot.vehicles.IVehicle;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +75,8 @@ public class ParkingService {
     @Transactional
     public Ticket parkVehicle(String plateNo, VehicleType vehicleType) {
 
+        IVehicle vehicle = IVehicle.createVehicle(vehicleType);
+
         if (vehicleRepository.findByPlateNo(plateNo).isPresent()) {
             Optional<Ticket> activeTicket = ticketRepository.findByVehiclePlateNoAndStatus(plateNo, TicketStatus.ACTIVE);
             if (activeTicket.isPresent()) {
@@ -82,7 +85,7 @@ public class ParkingService {
         }
 
 
-        Optional<ParkingSlot> optionalSlot = slotAllocationStrategy.findSlot(vehicleType);
+        Optional<ParkingSlot> optionalSlot = slotAllocationStrategy.findSlot(vehicle);
         if (optionalSlot.isEmpty()) {
             throw new IllegalStateException("Parking lot is full for vehicle type " + vehicleType.name());
         }
@@ -92,10 +95,10 @@ public class ParkingService {
         parkingSlotRepository.save(slot);
 
 
-        Vehicle vehicle = new Vehicle();
-        vehicle.setPlateNo(plateNo);
-        vehicle.setVehicleType(vehicleType);
-        vehicleRepository.save(vehicle);
+        Vehicle car = new Vehicle();
+        car.setPlateNo(plateNo);
+        car.setVehicleType(vehicleType);
+        vehicleRepository.save(car);
 
 
         Ticket ticket = new Ticket();
